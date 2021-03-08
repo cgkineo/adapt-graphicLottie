@@ -1,0 +1,55 @@
+.graphiclottie__player {
+  position: relative;
+
+  canvas {
+    display: block;
+    max-width: 100%;
+    min-width: 100%;
+    cursor: pointer;
+  }
+
+  &.is-graphiclottie-playing .graphiclottie__playpause {
+    .icon-video-pause;
+  }
+
+  &.is-graphiclottie-paused .graphiclottie__playpause {
+    .icon-video-play;
+  }
+
+  &.is-graphiclottie-playing .graphiclottie__controls {
+    opacity: 0;
+  }
+
+  html:not(.touch) &.is-graphiclottie-playing:hover .graphiclottie__controls {
+    opacity: 1;
+  }
+
+  &.is-graphiclottie-paused .graphiclottie__controls {
+    transition: none;
+    opacity: 1;
+  }
+
+  .graphiclottie__controls {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.1em;
+    transition: opacity 0.4s ease-in-out 0.4s;
+    opacity: 0;
+    background: white;
+
+    button {
+      background: transparent;
+    }
+  }
+
+  .graphiclottie__playpause {
+    margin-left: auto;
+  }
+
+  .graphiclottie__rewind {
+    .icon-video-replay;
+  }
+
+}

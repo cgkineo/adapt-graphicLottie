@@ -1,0 +1,63 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://jsonschema.net",
+  "required": false,
+  "properties": {
+    "pluginLocations": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "config": {
+          "type": "object"
+        },
+        "course": {
+          "type":"object",
+          "properties": {
+            "_graphicLottie": {
+              "type": "object",
+              "required": false,
+              "legend": "Graphic Lottie Animation",
+              "properties": {
+                "_isEnabled": {
+                  "type": "boolean",
+                  "required": true,
+                  "default": true,
+                  "title": "Is Enabled",
+                  "inputType": "Checkbox",
+                  "validators": [],
+                  "help": "If enabled, graphics with the file extension below will be replaced by animations."
+                },
+                "_fileExtension": {
+                  "type":"string",
+                  "required":true,
+                  "default": "svgz",
+                  "title":"File extension",
+                  "enum": ["bmp", "svgz"],
+                  "inputType": {
+                    "type": "Select",
+                    "options": ["bmp", "svgz"]
+                  },
+                  "validators": [],
+                  "help": "Replace files with this extension only."
+                }
+              }
+            }
+          }
+        },
+        "contentobject": {
+          "type":"object"
+        },
+        "article": {
+          "type":"object"
+        },
+        "block": {
+          "type":"object"
+        },
+        "component": {
+          "type":"object"
+        }
+      }
+    }
+  }
+}
