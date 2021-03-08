@@ -17,7 +17,7 @@ export default class LottieView extends Backbone.View {
     this.wasPaused = false;
     this.animation = null;
     this.setUpAttributeChangeObserver();
-    this.setUpInviewListener();
+    this.setUpListeners();
     this.render();
   }
 
@@ -26,8 +26,9 @@ export default class LottieView extends Backbone.View {
     observer.observe(this.el, { attributes: true });
   }
 
-  setUpInviewListener() {
+  setUpListeners() {
     this.$el.on('onscreen', this.onScreenChange.bind(this));
+    this.listenTo(Adapt, 'device:resize', this.render);
   }
 
   onScreenChange(event, measurements) {
@@ -110,7 +111,10 @@ export default class LottieView extends Backbone.View {
   }
 
   get src() {
-    return this.$el.attr('src');
+    const small = this.$el.attr('data-small');
+    const large = this.$el.attr('data-large');
+    const src = this.$el.attr('src');
+    return src || (Adapt.device.screenSize === 'small' ? small : large) || large;
   }
 
   remove() {
