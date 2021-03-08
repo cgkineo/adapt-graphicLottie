@@ -6,7 +6,7 @@ Uses v5.7.6 of Lottie.
 
 ## Settings Overview
 
-The attributes listed below are used in *course.json* to configure **Adapt SVG**, and are properly formatted as JSON in [*example.json*](https://github.com/cgkineo/adapt-graphicLottie/blob/master/example.json).
+The attributes listed below are used in *course.json* to configure **Adapt Graphic Lottie**, and are properly formatted as JSON in [*example.json*](https://github.com/cgkineo/adapt-graphicLottie/blob/master/example.json).
 
 ### Attributes
 
