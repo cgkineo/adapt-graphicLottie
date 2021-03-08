@@ -1,33 +1,7 @@
+    // course.json
     {
-        "_id": "c-15",
-        "_parentId": "b-10",
-        "_type": "component",
-        "_component": "svg",
-        "_classes": "",
-        "_layout": "full",
-        "title": "",
-        "displayTitle": "",
-        "body": "",
-        "instruction": "",
-        "_setCompletionOn": "inview",
-        "_animation": {
-            "_src": "course/en/video/lottiesample.json",
-            "alt": "",
-            "description": "",
-            "attribution": "",
-            "_loops": 0,
-            "_autoPlay": true,
-            "_onScreenPercentInviewVertical": 1,
-            "_offScreenPause": true,
-            "_offScreenRewind": true,
-            "_showPauseControl": true,
-            "_onPauseRewind": false,
-            "_renderer": "svg"
-        },
-        "_fallback": {
-            "src": "",
-            "alt": "",
-            "description": "",
-            "attribution": ""
+        "_graphicLottie": {
+            "_isEnabled": true,
+            "_fileExtension": "svgz"
         }
-    },
+    }
