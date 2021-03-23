@@ -52,12 +52,23 @@ class GraphicLottie extends Backbone.Controller {
       }
     });
 
+    let waitFor = 0;
     new DOMModifier({
       elementFilter(element) {
         return element.getAttribute('data-graphiclottie');
       },
       onElementAdd(div) {
+        if (waitFor === 0) {
+          Adapt.wait.begin();
+        }
+        waitFor++;
         div.lottieView = new LottieView({ el: div });
+        div.lottieView.on('ready', () => {
+          waitFor--;
+          if (waitFor === 0) {
+            Adapt.wait.end();
+          }
+        })
       },
       onElementRemove(div) {
         div.lottieView.remove();

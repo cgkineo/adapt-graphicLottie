@@ -148,6 +148,7 @@ export default class LottieView extends Backbone.View {
     this.animation.resize();
     this.pause();
     this.rewind();
+    this.trigger('ready');
   }
 
   onEnterFrame() {
