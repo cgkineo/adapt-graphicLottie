@@ -1,15 +1,12 @@
-<div class="graphiclottie__player{{#if _showPauseControl}} js-graphiclottie-play-pause{{/if}}">
+<div{{#unless alt}} aria-hidden="true"{{/unless}} class="graphiclottie__player is-graphiclottie-nocontrols {{#if _showPauseControl}} has-graphiclottie-play-pause{{/if}}">
   {{#if _isAnimation}}
-  <canvas></canvas>
+  <canvas {{#if alt}}aria-label="{{alt}}"{{/if}}></canvas>
   <div class="graphiclottie__controls">
     {{#if _showPauseControl}}
     <button class="graphiclottie__playpause icon" type="button" aria-label="Pause"></button>
     {{/if}}
-    {{#if _showRewindControl}}
-    <button class="graphiclottie__rewind icon" type="button" aria-label="Rewind"></button>
-    {{/if}}
   </div>
   {{else}}
-    <img src="{{_src}}">
+    <img src="{{_src}}" {{#if alt}}aria-label="{{alt}}"{{/if}}>
   {{/if}}
 </div>

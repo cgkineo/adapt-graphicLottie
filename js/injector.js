@@ -39,9 +39,9 @@ export class DOMModifier {
         const arr = _.toArray(item[prop]);
         return nodes.concat(arr);
       }, []);
-      const elements = nodes.filter(el => el.nodeType === 1);
-      const lotties = elements.reduce((nodes, el) => nodes.concat([el, ...$(el).find('*').toArray()].filter(elementFilter)), []);
-      return lotties;
+      const elementNodes = nodes.filter(el => el.nodeType === 1);
+      const foundNodes = elementNodes.reduce((nodes, el) => nodes.concat([el, ...$(el).find('*').toArray()].filter(elementFilter)), []);
+      return foundNodes;
     }
     const observer = new MutationObserver((list, observer) => {
       const added = filter(list, 'addedNodes');

@@ -11,7 +11,17 @@ class GraphicLottie extends Backbone.Controller {
   onDataReady() {
     const config = Adapt.course.get('_graphicLottie');
     if (!config?._isEnabled) return;
+    this.setUpEventListeners();
     this.setUp();
+  }
+
+  setUpEventListeners() {
+    document.body.addEventListener('transitionend', this.checkOnScreen.bind(this));
+    this.listenTo(Adapt, 'notify:opened', this.checkOnScreen);
+  }
+
+  checkOnScreen() {
+    $.inview();
   }
 
   setUp() {
