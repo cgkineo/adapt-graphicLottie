@@ -34,6 +34,6 @@ The attributes listed below are used in *course.json* to configure **Adapt Graph
 **Version number:**  0.0.16   
 **Framework versions:**  >=5.8   
 **Author / maintainer:** Kineo   
-**Accessibility support:** None   
-**RTL support:** No   
+**Accessibility support:** Yes   
+**RTL support:** Yes   
 **Cross-platform coverage:** Evergreen + IE11   
