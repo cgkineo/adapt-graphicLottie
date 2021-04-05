@@ -17,7 +17,7 @@ The attributes listed below are used in *course.json* to configure **Adapt Graph
 
 >**\_isEnabled** (String): Defaults to `true`.
 
->**\_fileExtension** (String): The image file extension of the json file. Acceptable values are `.svgz` and `.bmp`. Defaults to `svgz`. 
+>**\_fileExtension** (String): The image file extension of the json file. Acceptable values are `svgz` and `bmp`. Defaults to `svgz`. 
 
 >**\_loops** (Number): Controls how many times the animation should loop. To set an infinite loop, use a value of `-1`. Defaults to `0` (don't loop).
 
