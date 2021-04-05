@@ -13,8 +13,7 @@ The attributes listed below are used in *course.json* to configure **Adapt Graph
 
 ### Attributes
 
-**\_graphicLottie** (object): It contains values for **\_isEnabled**, **\_fileExtension**, **\_loops**, **\_autoPlay**, **\_onScreenPercentInviewVertical**, **\_offScreenPause**, **\_offScreenRewind**, **\
->**\_showPauseControl** and **\_onPauseRewind**
+**\_graphicLottie** (object): It contains values for **\_isEnabled**, **\_fileExtension**, **\_loops**, **\_autoPlay**, **\_onScreenPercentInviewVertical**, **\_offScreenPause**, **\_offScreenRewind**, **\_showPauseControl** and **\_onPauseRewind**
 
 >**\_isEnabled** (String): Defaults to `true`.
 
