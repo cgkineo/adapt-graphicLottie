@@ -1,6 +1,6 @@
 # Adapt Graphic Lottie
 
-**Adapt Graphic Lottie** is an *extension* that renders Lottie animations exported from Adobe After Effect using the Bodymovin plugin. It works *only* where graphics are rendered as *img* tags and not everywhere graphics are rendered as *img* tags, due to custom styling and behaviour. 
+**Adapt Graphic Lottie** is an *extension* that renders Lottie animations exported from Adobe After Effect using the Bodymovin plugin. It works *only* where graphics are rendered as *img* tags and not everywhere graphics are rendered as *img* tags, due to custom styling and behaviour.
 
 Uses v5.7.6 of Lottie.
 
@@ -17,7 +17,7 @@ The attributes listed below are used in *course.json* to configure **Adapt Graph
 
 >**\_isEnabled** (String): Defaults to `true`.
 
->**\_fileExtension** (String): The image file extension of the json file. Acceptable values are `svgz` and `bmp`. Defaults to `svgz`. 
+>**\_fileExtension** (String): The image file extension of the json file. Acceptable values are `svgz` and `bmp`. Defaults to `svgz`.
 
 >**\_loops** (Number): Controls how many times the animation should loop. To set an infinite loop, use a value of `-1`. Defaults to `0` (don't loop).
 
@@ -34,9 +34,9 @@ The attributes listed below are used in *course.json* to configure **Adapt Graph
 >**\_onPauseRewind** (Boolean): Rewind when the pause button is clicked. Defaults to `false`.
 
 ----------------------------
-**Version number:**  0.0.17   
-**Framework versions:**  >=5.8   
-**Author / maintainer:** Kineo   
-**Accessibility support:** Yes   
-**RTL support:** Yes   
-**Cross-platform coverage:** Evergreen + IE11   
+**Version number:**  0.1.0
+**Framework versions:**  >=5.14
+**Author / maintainer:** Kineo
+**Accessibility support:** Yes
+**RTL support:** Yes
+**Cross-platform coverage:** Evergreen + IE11

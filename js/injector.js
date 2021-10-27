@@ -1,27 +1,6 @@
 import Adapt from 'core/js/adapt';
 
 /**
- * Allows the modification of Adapt templates after render
- */
-export class AdaptTemplateRenderModifier {
-
-  constructor({
-    htmlTest = () => {},
-    htmlModify = () => {}
-  } = {}) {
-    htmlTest = htmlTest.bind(this);
-    htmlModify = htmlModify.bind(this);
-    Adapt.on('template:postRender partial:postRender', (obj) => {
-      if (!htmlTest(obj.value)) return;
-      const value = htmlModify(obj.value);
-      if (!value) return;
-      obj.value = value;
-    });
-  }
-
-}
-
-/**
  * Allows the modification of filtered dom nodes on addition and removal
  */
 export class DOMModifier {
