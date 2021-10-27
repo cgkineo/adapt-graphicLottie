@@ -60,7 +60,7 @@ class GraphicLottie extends Backbone.Controller {
         return element.getAttribute('data-graphiclottie');
       },
       onElementRemove(div) {
-        div.lottieView.remove();
+        div.lottieView?.remove();
         div.lottieView = null;
       }
     });
