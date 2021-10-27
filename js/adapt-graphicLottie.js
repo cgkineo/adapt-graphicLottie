@@ -1,5 +1,5 @@
 import Adapt from 'core/js/adapt';
-import { AdaptTemplateRenderModifier, DOMModifier } from './injector';
+import { DOMModifier } from './injector';
 import LottieView from './LottieView';
 
 class GraphicLottie extends Backbone.Controller {
@@ -28,36 +28,22 @@ class GraphicLottie extends Backbone.Controller {
     const config = Adapt.course.get('_graphicLottie');
     const fileExtension = config._fileExtension || 'svgz';
     const rex = new RegExp(`\\.${fileExtension}`, 'i');
-    new AdaptTemplateRenderModifier({
-      htmlTest(html) {
-        return rex.test(html);
-      },
-      htmlModify(html) {
-        const $template = $(`<div>${html}</div>`);
-        const $images = $template.find('img').filter((index, img) => {
-          return rex.test(img.src) || rex.test(img.getAttribute('data-large')) || rex.test(img.getAttribute('data-small'));
-        });
-        if (!$images.length) return;
-        $images.each((index, img) => {
-          const div = document.createElement('div');
-          $(img).replaceWith(div);
-          div.setAttribute('data-graphiclottie', true);
-          $(div).attr({
-            ...[...img.attributes].reduce((attrs, { name, value }) => ({ ...{ [name]: value }, ...attrs }), {}),
-            'class': img.className,
-            'id': img.id
-          });
-        });
-        return $template.html();
-      }
-    });
-
     let waitFor = 0;
     new DOMModifier({
-      elementFilter(element) {
-        return element.getAttribute('data-graphiclottie');
+      elementAddFilter(element) {
+        if (!element.nodeName === 'IMG') return;
+        const img = element;
+        return rex.test(img.src) || rex.test(img.getAttribute('data-large')) || rex.test(img.getAttribute('data-small'));
       },
-      onElementAdd(div) {
+      onElementAdd(img) {
+        const div = document.createElement('div');
+        $(img).replaceWith(div);
+        div.setAttribute('data-graphiclottie', true);
+        $(div).attr({
+          ...[...img.attributes].reduce((attrs, { name, value }) => ({ ...{ [name]: value }, ...attrs }), {}),
+          'class': img.className,
+          'id': img.id
+        });
         if (waitFor === 0) {
           Adapt.wait.begin();
         }
@@ -70,12 +56,14 @@ class GraphicLottie extends Backbone.Controller {
           }
         })
       },
+      elementRemoveFilter(element) {
+        return element.getAttribute('data-graphiclottie');
+      },
       onElementRemove(div) {
         div.lottieView.remove();
         div.lottieView = null;
       }
     });
-
   }
 
 }
