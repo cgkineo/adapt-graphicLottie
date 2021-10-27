@@ -31,7 +31,7 @@ class GraphicLottie extends Backbone.Controller {
     let waitFor = 0;
     new DOMModifier({
       elementAddFilter(element) {
-        if (!element.nodeName === 'IMG') return;
+        if (element.nodeName !== 'IMG') return;
         const img = element;
         return rex.test(img.src) || rex.test(img.getAttribute('data-large')) || rex.test(img.getAttribute('data-small'));
       },
