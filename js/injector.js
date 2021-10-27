@@ -6,25 +6,27 @@ import Adapt from 'core/js/adapt';
 export class DOMModifier {
 
   constructor({
-    elementFilter = () => {},
+    elementAddFilter = () => {},
+    elementRemoveFilter = () => {},
     onElementAdd = () => {},
     onElementRemove = () => {}
   }) {
-    elementFilter = elementFilter.bind(this);
+    elementAddFilter = elementAddFilter.bind(this);
+    elementRemoveFilter = elementRemoveFilter.bind(this);
     onElementAdd = onElementAdd.bind(this);
     onElementRemove = onElementRemove.bind(this);
-    function filter(list, prop) {
+    function filter(list, prop, predicate) {
       const nodes = list.reduce((nodes, item) => {
         const arr = _.toArray(item[prop]);
         return nodes.concat(arr);
       }, []);
       const elementNodes = nodes.filter(el => el.nodeType === 1);
-      const foundNodes = elementNodes.reduce((nodes, el) => nodes.concat([el, ...$(el).find('*').toArray()].filter(elementFilter)), []);
+      const foundNodes = elementNodes.reduce((nodes, el) => nodes.concat([el, ...$(el).find('*').toArray()].filter(predicate)), []);
       return foundNodes;
     }
     const observer = new MutationObserver((list, observer) => {
-      const added = filter(list, 'addedNodes');
-      const removed = filter(list, 'removedNodes');
+      const added = filter(list, 'addedNodes', elementAddFilter);
+      const removed = filter(list, 'removedNodes', elementRemoveFilter);
       if (added.length) {
         added.forEach(onElementAdd);
       }
