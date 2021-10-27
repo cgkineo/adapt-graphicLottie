@@ -1,5 +1,5 @@
 import Adapt from 'core/js/adapt';
-import { AdaptTemplateRenderModifier, DOMModifier } from './injector';
+import { DOMModifier } from './injector';
 import LottieView from './LottieView';
 
 class GraphicLottie extends Backbone.Controller {
