@@ -8,7 +8,7 @@
             "_onScreenPercentInviewVertical": 1,
             "_offScreenPause": true,
             "_offScreenRewind": true,
-            "_showPauseControl": false,
+            "_showPauseControl": true,
             "_onPauseRewind": false
         }
     }

@@ -87,7 +87,7 @@
                 "_showPauseControl": {
                   "type": "boolean",
                   "required": true,
-                  "default": false,
+                  "default": true,
                   "title": "Show play/pause button?",
                   "inputType": "Checkbox",
                   "validators": []
