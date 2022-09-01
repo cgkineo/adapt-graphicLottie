@@ -58,11 +58,11 @@ export default class LottieView extends Backbone.View {
   }
 
   play(noControls = false) {
+    // if not looping, Lottie will stop one frame before the end and not complete the loop or update counts accordingly
     const isFinished = (this.animation.currentFrame === this.animation.totalFrames - 1);
-    if (isFinished) {
-      this.animation.stop();
-    }
-    this.animation.play();
+    if (isFinished && !noControls) this.animation.stop();
+    const isLoopsComplete = this.animation._completedLoop || (isFinished && this.animation.playCount === this.animation.loop);
+    if (!isLoopsComplete || !noControls) this.animation.play();
     this.update();
     if (noControls) {
       this.$player.removeClass('is-graphiclottie-nocontrols');
@@ -149,10 +149,6 @@ export default class LottieView extends Backbone.View {
     this.pause();
     this.rewind();
     this.trigger('ready');
-  }
-
-  onEnterFrame() {
-    this.update();
   }
 
   onGeneralPlayPause() {
