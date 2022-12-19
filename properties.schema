@@ -68,6 +68,15 @@
                   "validators": ["required", "number"],
                   "help": "At least this much must in view before autoplaying. Less than is considered off-screen"
                 },
+                "_playFirstViewOnly": {
+                  "type": "boolean",
+                  "required": true,
+                  "default": true,
+                  "title": "Only play animation when first inview?",
+                  "inputType": "Checkbox",
+                  "validators": [],
+                  "help": "Note: Percentage onscreen determines when inview."
+                },
                 "_offScreenPause": {
                   "type": "boolean",
                   "required": true,

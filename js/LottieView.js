@@ -42,37 +42,38 @@ export default class LottieView extends Backbone.View {
   }
 
   onOffScreen() {
-    if (this.isPaused || this.hasUserPaused) return;
-    if (!this.config._offScreenPause) return;
+    // disable animation if already playing and should only play on first inview
+    if (this.hasStarted && this.config._playFirstViewOnly) {
+      this.animation.loop = 0;
+      this.animation.goToAndStop(this.animation.totalFrames, true);
+      this.pause(true);
+      return;
+    }
+    // if not looping, an animation will need to be rewound/stopped before it can be replayed
+    if (!this.config._playFirstViewOnly && this.isLoopsComplete) {
+      this.rewind();
+      return;
+    }
+    if (this.isPaused || this.hasUserPaused || !this.config._offScreenPause) return;
     this.pause(true);
-    if (!this.config._offScreenRewind) return;
-    this.rewind();
+    if (this.config._offScreenRewind) this.rewind();
   }
 
   onOnScreen() {
-    if (!this.isPaused) return;
+    if (!this.isPaused || this.isLoopsComplete) return;
     this.$player.removeClass('is-graphiclottie-nocontrols');
-    if (!this.config._autoPlay) return;
-    if (this.hasUserPaused) return;
+    if (!this.config._autoPlay || this.hasUserPaused) return;
     this.play(true);
   }
 
   play(noControls = false) {
-    // if not looping, Lottie will stop one frame before the end and not complete the loop or update counts accordingly
-    const isFinished = (this.animation.currentFrame === this.animation.totalFrames - 1);
-    if (isFinished && !noControls) this.animation.stop();
-    const isLoopsComplete = this.animation._completedLoop || (isFinished && this.animation.playCount === this.animation.loop);
-    if (!isLoopsComplete || !noControls) this.animation.play();
+    this.animation.play();
     this.update();
-    if (noControls) {
-      this.$player.removeClass('is-graphiclottie-nocontrols');
-    }
+    if (noControls) this.$player.removeClass('is-graphiclottie-nocontrols');
   }
 
   pause(noControls = false) {
-    if (noControls) {
-      this.$player.addClass('is-graphiclottie-nocontrols');
-    }
+    if (noControls) this.$player.addClass('is-graphiclottie-nocontrols');
     this.animation.pause();
     this.update();
   }
@@ -86,16 +87,16 @@ export default class LottieView extends Backbone.View {
   }
 
   rewind() {
-    const isPaused = this.isPaused;
     this.animation.stop();
-    this.animation[isPaused ? 'goToAndStop' : 'goToAndPlay'](0, true);
+    this.animation[this.isPaused ? 'goToAndStop' : 'goToAndPlay'](0, true);
     this.update();
   }
 
   update() {
-    this.$player.toggleClass('is-graphiclottie-playing', !this.animation.isPaused);
-    this.$player.toggleClass('is-graphiclottie-paused', this.animation.isPaused);
-    Adapt.a11y.toggleEnabled(this.$player.find('.graphiclottie__rewind'), this.animation.currentFrame !== 0);
+    if (this.isLoopsComplete) this.$player.addClass('is-graphiclottie-nocontrols');
+    this.$player.toggleClass('is-graphiclottie-playing', !this.isPaused);
+    this.$player.toggleClass('is-graphiclottie-paused', this.isPaused);
+    Adapt.a11y.toggleEnabled(this.$player.find('.graphiclottie__rewind'), this.hasStarted);
   }
 
   render() {
@@ -119,6 +120,19 @@ export default class LottieView extends Backbone.View {
 
   get $player() {
     return this.$('.graphiclottie__player');
+  }
+
+  get hasStarted() {
+    return this.animation.currentFrame > 0;
+  }
+
+  get isFinished() {
+    // if not looping, Lottie will stop one frame before the end and not complete the loop or update counts accordingly
+    return this.animation.currentFrame >= this.animation.totalFrames - 1;
+  }
+
+  get isLoopsComplete() {
+    return this.animation._completedLoop || (this.isFinished && this.animation.playCount === this.animation.loop);
   }
 
   createAnimation() {
@@ -152,12 +166,10 @@ export default class LottieView extends Backbone.View {
   }
 
   onGeneralPlayPause() {
-    if (!this.config._showPauseControl) return;
+    if (!this.config._showPauseControl || this.isLoopsComplete) return;
     this.togglePlayPause();
-    this.hasUserPaused = this.animation.isPaused;
-    if (this.hasUserPaused && this.config._onPauseRewind) {
-      this.rewind();
-    }
+    this.hasUserPaused = this.isPaused;
+    if (this.hasUserPaused && this.config._onPauseRewind) this.rewind();
   }
 
   onPlayPauseClick(event) {

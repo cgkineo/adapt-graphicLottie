@@ -6,9 +6,10 @@
             "_loops": -1,
             "_autoPlay": true,
             "_onScreenPercentInviewVertical": 1,
+            "_playFirstViewOnly": true,
             "_offScreenPause": true,
             "_offScreenRewind": true,
-            "_showPauseControl": true,
+            "_showPauseControl": false,
             "_onPauseRewind": false
         }
     }
