@@ -4,14 +4,15 @@
   "framework": ">=5.14",
   "homepage": "https://github.com/cgkineo/adapt-graphicLottie",
   "issues": "https://github.com/cgkineo/adapt-graphicLottie/issues",
-  "extension" : "graphicLottie",
-  "displayName" : "Graphic Lottie Animation",
+  "extension": "graphicLottie",
+  "displayName": "Graphic Lottie Animation",
   "description": "An extension allowing svg-based animation exported from Adobe After Effects using the Bodymovin plugin to be injected in-place of a graphic.",
   "main": "/js/adapt-graphicLottie.js",
-  "keywords": [
-    "adapt-plugin",
-    "adapt-extension"
-  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cgkineo/adapt-graphicLottie.git"
+  },
+  "keywords": ["adapt-plugin", "adapt-extension"],
   "license": "GPL-3.0",
   "targetAttribute": "_graphicLottie"
 }
