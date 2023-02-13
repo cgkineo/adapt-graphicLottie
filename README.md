@@ -36,7 +36,7 @@ The attributes listed below are used in *course.json* to configure **Adapt Graph
 >**\_onPauseRewind** (Boolean): Rewind when the pause button is clicked. Defaults to `false`.
 
 ----------------------------
-**Version number:**  0.1.1<br/>
+
 **Framework versions:**  >=5.14<br/>
 **Author / maintainer:** Kineo<br/>
 **Accessibility support:** Yes<br/>
