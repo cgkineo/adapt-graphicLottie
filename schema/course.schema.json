@@ -1,0 +1,82 @@
+{
+  "$anchor": "graphicLottie-course",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "$patch": {
+    "source": {
+      "$ref": "course"
+    },
+    "with": {
+      "properties": {
+        "_graphicLottie": {
+          "type": "object",
+          "title": "Graphic Lottie Animation",
+          "default": {},
+          "properties": {
+            "_isEnabled": {
+              "type": "boolean",
+              "title": "Is Enabled",
+              "description": "If enabled, graphics with the file extension below will be replaced by animations.",
+              "default": true
+            },
+            "_fileExtension": {
+              "type": "string",
+              "title": "File extension",
+              "description": "Replace files with this extension only.",
+              "default": "svgz",
+              "enum": [
+                "bmp",
+                "svgz"
+              ],
+              "_backboneForms": "Select"
+            },
+            "_loops": {
+              "type": "number",
+              "title": "Number of animation loops",
+              "description": "Note: -1 for infinite loops, 0 for play once, 1 for play twice...",
+              "default": -1
+            },
+            "_autoPlay": {
+              "type": "boolean",
+              "title": "Autoplay animations?",
+              "description": "Note: Percentage onscreen determines when autoplay occurs.",
+              "default": true
+            },
+            "_onScreenPercentInviewVertical": {
+              "type": "number",
+              "title": "Percentage on-screen",
+              "description": "At least this much must in view before autoplaying. Less than is considered off-screen",
+              "default": 1
+            },
+            "_playFirstViewOnly": {
+              "type": "boolean",
+              "title": "Only play animation when first inview?",
+              "description": "Note: Percentage onscreen determines when inview.",
+              "default": true
+            },
+            "_offScreenPause": {
+              "type": "boolean",
+              "title": "Pause when off-screen?",
+              "default": true
+            },
+            "_offScreenRewind": {
+              "type": "boolean",
+              "title": "Rewind when off-screen?",
+              "default": true
+            },
+            "_showPauseControl": {
+              "type": "boolean",
+              "title": "Show play/pause button?",
+              "default": true
+            },
+            "_onPauseRewind": {
+              "type": "boolean",
+              "title": "Rewind when paused?",
+              "default": false
+            }
+          }
+        }
+      }
+    }
+  }
+}
