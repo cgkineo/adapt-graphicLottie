@@ -5,7 +5,7 @@
 Uses v5.7.6 of Lottie.
 
 ## Adapt Authoring Tool
-Change the file ending of your json from `.json` to `.svgz` for use in the AAT image picker.
+To use in the AAT image picker, change the file ending of your JSON file from `.json` to `.svgz`.
 
 ## Settings Overview
 
@@ -17,7 +17,7 @@ The attributes listed below are used in *course.json* to configure **Adapt Graph
 
 >**\_isEnabled** (String): Defaults to `true`.
 
->**\_fileExtension** (String): The image file extension of the json file. Acceptable values are `svgz` and `bmp`. Defaults to `svgz`.
+>**\_fileExtension** (String): The file extension of the JSON file that is exported from Adobe After Effects. Acceptable values are `svgz` and `json`. Defaults to `svgz`.
 
 >**\_loops** (Number): Controls how many times the animation should loop when inview. To set an infinite loop, use a value of `-1`. Defaults to `0` (don't loop).
 
