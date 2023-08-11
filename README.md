@@ -5,9 +5,9 @@
 Uses v5.7.6 of Lottie.
 
 ## Adapt Authoring Tool
-To use in the AAT image picker:
+To use with the AAT's image picker:
 - Change the file ending of your JSON file from `.json` to `.svgz`
-- In *course.json*, change `_graphicLottie._fileExtension` to `svgz`
+- In *course.json*, ensure `_graphicLottie._fileExtension` is set to `svgz`
 
 ## Settings Overview
 
