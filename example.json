@@ -1,15 +1,31 @@
-    // course.json
-    {
-        "_graphicLottie": {
-            "_isEnabled": true,
-            "_fileExtension": "svgz",
-            "_loops": -1,
-            "_autoPlay": true,
-            "_onScreenPercentInviewVertical": 1,
-            "_playFirstViewOnly": true,
-            "_offScreenPause": true,
-            "_offScreenRewind": true,
-            "_showPauseControl": false,
-            "_onPauseRewind": false
-        }
+// course.json
+"_graphicLottie": {
+    "_isEnabled": true,
+    "_fileExtension": "svgz",
+    "_loops": -1,
+    "_autoPlay": true,
+    "_onScreenPercentInviewVertical": 1,
+    "_playFirstViewOnly": true,
+    "_offScreenPause": true,
+    "_offScreenRewind": true,
+    "_showPauseControl": false,
+    "_onPauseRewind": false
+}
+
+// components.json - Example using a Lottie animation in a Graphic component
+{
+    "_id": "c-05",
+    "_parentId": "b-05",
+    "_type": "component",
+    "_component": "graphic",
+    "_classes": "",
+    "_layout": "left",
+    "title": "Graphic component",
+    "displayTitle": "",
+    "body": "",
+    "instruction": "",
+    "_graphic": {
+        "large": "course/en/images/graphic.svgz",
+        "small": "course/en/images/graphic.svgz"
     }
+}
