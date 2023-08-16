@@ -13,7 +13,11 @@ export default class LottieView extends Backbone.View {
 
   initialize() {
     _.bindAll(this, 'render', 'onScreenChange', 'update', 'onDataReady');
-    this.config = Adapt.course.get('_graphicLottie');
+    const overrides = JSON.parse(this.$el.attr('data-config') || '{}');
+    this.config = {
+      ...Adapt.course.get('_graphicLottie'),
+      ...overrides
+    };
     const fileExtension = this.config._fileExtension || 'svgz';
     this._rex = new RegExp(`\\.${fileExtension}`, 'i');
     this.hasUserPaused = false;
