@@ -1,11 +1,13 @@
 import Adapt from 'core/js/adapt';
-import { DOMModifier } from './injector';
+import wait from 'core/js/wait';
 import LottieView from './LottieView';
+import documentModifications from 'core/js/DOMElementModifications';
 
 class GraphicLottie extends Backbone.Controller {
 
   initialize() {
     this.listenTo(Adapt, 'app:dataReady', this.onDataReady);
+    this.waitingFor = 0;
   }
 
   onDataReady() {
@@ -27,44 +29,42 @@ class GraphicLottie extends Backbone.Controller {
   setUp() {
     const config = Adapt.course.get('_graphicLottie');
     const fileExtension = config._fileExtension || 'svgz';
-    const rex = new RegExp(`\\.${fileExtension}`, 'i');
-    let waitFor = 0;
-    new DOMModifier({
-      elementAddFilter(element) {
-        if (element.nodeName !== 'IMG') return;
-        const img = element;
-        return rex.test(img.src) || rex.test(img.getAttribute('data-large')) || rex.test(img.getAttribute('data-small'));
-      },
-      onElementAdd(img) {
-        const div = document.createElement('div');
-        $(img).replaceWith(div);
-        div.setAttribute('data-graphiclottie', true);
-        $(div).attr({
-          ...[...img.attributes].reduce((attrs, { name, value }) => ({ ...{ [name]: value }, ...attrs }), {}),
-          'class': img.className,
-          'id': img.id
-        });
-        if (waitFor === 0) {
-          Adapt.wait.begin();
-        }
-        waitFor++;
-        div.lottieView = new LottieView({ el: div });
-        div.lottieView.on('ready', () => {
-          waitFor--;
-          if (waitFor === 0) {
-            Adapt.wait.end();
-          }
-        })
-      },
-      elementRemoveFilter(element) {
-        return element.getAttribute('data-graphiclottie');
-      },
-      onElementRemove(div) {
-        if (waitFor !== 0) return;
-        div.lottieView?.remove();
-        div.lottieView = null;
-      }
+    this.listenTo(documentModifications, {
+      [`added:img[src*='.${fileExtension}'],img[data-large*='.${fileExtension}'],img[data-small*='.${fileExtension}']`]: this.onImgAdded,
+      'remove:[data-graphiclottie]': this.onPlayerRemoved
     });
+  }
+
+  onImgAdded(event) {
+    if (this.waitingFor === 0) wait.begin();
+    this.waitingFor++;
+    const img = event.target;
+    const $img = $(img);
+    const div = document.createElement('div');
+    const $div = $(div);
+    $img.replaceWith($div);
+    $div
+      .attr('data-graphiclottie', true)
+      .addClass('graphiclottie')
+      .attr({
+        ...[...img.attributes].reduce((attrs, { name, value }) => ({ ...{ [name]: value }, ...attrs }), {}),
+        class: img.className,
+        id: img.id
+      });
+    const lottieView = div.lottieView = new LottieView({ el: div });
+    lottieView.on('ready', () => {
+      this.waitingFor--;
+      if (this.waitingFor !== 0) return;
+      wait.end();
+    });
+  }
+
+  onPlayerRemoved(event) {
+    if (this.waitingFor !== 0) return;
+    const div = event.target;
+    const lottieView = div.lottieView;
+    lottieView?.remove();
+    div.lottieView = null;
   }
 
 }

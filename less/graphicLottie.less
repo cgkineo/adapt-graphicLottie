@@ -1,45 +1,33 @@
-.graphiclottie__player {
-  position: relative;
+.graphiclottie {
 
-  canvas {
+  &__player {
+    position: relative;
+  }
+
+  &__animation-container {
     display: block;
     max-width: 100%;
     min-width: 100%;
   }
 
-  &.has-graphiclottie-play-pause {
-    cursor: pointer;
+  &__playpause {
+    background: transparent;
+    margin-left: auto;
   }
 
-  &.is-graphiclottie-playing .graphiclottie__playpause {
+  &__playpause .icon:before {
+    font-size: 3.5em;
+  }
+
+  .is-playing &__playpause .icon {
     .icon-video-pause;
   }
 
-  &.is-graphiclottie-paused .graphiclottie__playpause {
+  .is-paused &__playpause .icon {
     .icon-video-play;
   }
 
-  &.is-graphiclottie-playing .graphiclottie__controls {
-    opacity: 0;
-  }
-
-  html:not(.touch) &.is-graphiclottie-playing:hover .graphiclottie__controls,
-  html:not(.touch) &.is-graphiclottie-playing:focus-within .graphiclottie__controls {
-    opacity: 1;
-  }
-
-  &.is-graphiclottie-paused .graphiclottie__controls {
-    transition: none;
-    opacity: 1;
-  }
-
-  &.is-graphiclottie-paused.is-graphiclottie-nocontrols .graphiclottie__controls,
-  &.is-graphiclottie-nocontrols .graphiclottie__controls {
-    transition: none;
-    opacity: 0;
-  }
-
-  .graphiclottie__controls {
+  &__controls {
     display: flex;
     position: absolute;
     top: 50%;
@@ -48,22 +36,34 @@
     padding: 0.1em;
     transition: opacity 0.4s ease-in-out 0.4s;
     opacity: 0;
-
-    button {
-      background: transparent;
-
-      &.is-disabled {
-        color: rgba(16, 16, 16, 0.3);
-      }
-
-      &:before {
-        font-size: 3.5em;
-      }
-    }
   }
 
-  .graphiclottie__playpause {
-    margin-left: auto;
+  .is-playing &__controls {
+    opacity: 0;
+  }
+
+  html:not(.touch) .is-playing:hover &__controls,
+  html:not(.touch) .is-playing:focus-within &__controls {
+    opacity: 1;
+  }
+
+  .is-paused &__controls {
+    transition: none;
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .is-paused.is-hidecontrols &__controls,
+  .is-hidecontrols &__controls {
+    transition: none;
+    opacity: 0;
+    cursor: default;
+    button {
+      cursor: default;
+    }
+    .icon {
+      visibility: hidden;
+    }
   }
 
 }
