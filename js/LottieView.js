@@ -14,8 +14,10 @@ export default class LottieView extends Backbone.View {
     };
   }
 
-  initialize(options) {
+  initialize({ replacedEl }) {
     _.bindAll(this, 'render', 'onScreenChange', 'onDataReady');
+    this.replacedEl = replacedEl;
+    this.syncAttributes();
     const fileExtension = this.config._fileExtension || 'svgz';
     this._rex = new RegExp(`\\.${fileExtension}`, 'i');
     this.setUpAttributeChangeObserver();
@@ -75,11 +77,16 @@ export default class LottieView extends Backbone.View {
     );
   }
 
-  get src() {
-    const small = this.$el.attr('data-small');
-    const large = this.$el.attr('data-large');
-    const src = this.$el.attr('src');
+  calculateSrc(element) {
+    const $el = $(element);
+    const small = $el.attr('data-small');
+    const large = $el.attr('data-large');
+    const src = $el.attr('src');
     return src || (device.screenSize === 'small' ? small : large) || large;
+  }
+
+  get src() {
+    return this.calculateSrc(this.el);
   }
 
   get alt() {
@@ -107,8 +114,27 @@ export default class LottieView extends Backbone.View {
   }
 
   setUpAttributeChangeObserver() {
-    const observer = new MutationObserver(this.render);
-    observer.observe(this.el, { attributes: true });
+    const observer = new MutationObserver(() => {
+      this.syncAttributes();
+      this.render();
+    });
+    observer.observe(this.replacedEl, { attributes: true });
+  }
+
+  syncAttributes() {
+    const $div = this.$el;
+    const img = this.replacedEl;
+    $div
+      .attr('data-graphiclottie', true)
+      .addClass('graphiclottie')
+      .attr({
+        ...[...img.attributes].reduce((attrs, { name, value }) => {
+          if (name === 'class') return attrs;
+          return { ...{ [name]: value }, ...attrs };
+        }, {}),
+        id: img.id
+      })
+      .addClass($(img).attr('class'));
   }
 
   setUpListeners() {
@@ -229,6 +255,10 @@ export default class LottieView extends Backbone.View {
 
   destroyAnimation() {
     if (!this.animation) return;
+    this.animation.removeEventListener('data_ready', this.onDataReady);
+    this.animation.removeEventListener('complete', this.render);
+    this.animation.removeEventListener('loopComplete', this.render);
+    this.animation.removeEventListener('enterFrame', this.render);
     this.animation.stop();
     this.animation.destroy();
     this.animation = null;

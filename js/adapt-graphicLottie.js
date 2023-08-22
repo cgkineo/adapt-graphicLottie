@@ -43,15 +43,10 @@ class GraphicLottie extends Backbone.Controller {
     const div = document.createElement('div');
     const $div = $(div);
     $img.replaceWith($div);
-    $div
-      .attr('data-graphiclottie', true)
-      .addClass('graphiclottie')
-      .attr({
-        ...[...img.attributes].reduce((attrs, { name, value }) => ({ ...{ [name]: value }, ...attrs }), {}),
-        class: img.className,
-        id: img.id
-      });
-    const lottieView = div.lottieView = new LottieView({ el: div });
+    const lottieView = div.lottieView = new LottieView({
+      el: div,
+      replacedEl: img
+    });
     lottieView.on('ready', () => {
       this.waitingFor--;
       if (this.waitingFor !== 0) return;
