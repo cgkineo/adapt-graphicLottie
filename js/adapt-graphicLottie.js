@@ -42,7 +42,15 @@ class GraphicLottie extends Backbone.Controller {
     const $img = $(img);
     const div = document.createElement('div');
     const $div = $(div);
-    $img.replaceWith($div);
+
+    // Do replaceWith using detach instead of remove to preserve
+    // imageready event listeners
+    const $parent = $img.parent();
+    const previousSibling = $img[0].previousSibling;
+    $img.detach();
+    if (!previousSibling) $parent.prepend($div);
+    else $div.insertAfter(previousSibling);
+
     const lottieView = div.lottieView = new LottieView({
       el: div,
       replacedEl: img
