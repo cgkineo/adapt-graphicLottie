@@ -244,6 +244,7 @@ export default class LottieView extends Backbone.View {
     this.pause();
     this.rewind();
     this.trigger('ready');
+    this.onScreenChange(null, this.$el.onscreen());
   }
 
   onClick() {
