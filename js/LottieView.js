@@ -1,7 +1,7 @@
 import Adapt from 'core/js/adapt';
 import device from 'core/js/device';
 import Lottie from 'libraries/lottie.min';
-import documentModifications, { DOMElementModifications } from 'core/js/DOMElementModifications';
+import documentModifications from 'core/js/DOMElementModifications';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { templates } from 'core/js/reactHelpers';
