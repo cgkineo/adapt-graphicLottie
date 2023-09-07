@@ -1,7 +1,7 @@
 import Adapt from 'core/js/adapt';
 import device from 'core/js/device';
 import Lottie from 'libraries/lottie.min';
-import _ from 'underscore';
+import documentModifications, { DOMElementModifications } from 'core/js/DOMElementModifications';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { templates } from 'core/js/reactHelpers';
@@ -140,6 +140,10 @@ export default class LottieView extends Backbone.View {
   setUpListeners() {
     this.$el.on('onscreen', this.onScreenChange);
     this.listenTo(Adapt, 'device:resize', this.render);
+
+    documentModifications.on('changed:html', event => {
+      this.checkVisua11y();
+    });
   }
 
   onScreenChange(event, { onscreen, percentInview } = {}) {
@@ -152,10 +156,7 @@ export default class LottieView extends Backbone.View {
   onOffScreen() {
     // disable animation if already playing and should only play on first inview
     if (this.hasStarted && this.config._playFirstViewOnly) {
-      this.animation.loop = 0;
-      this.animation.goToAndStop(this.animation.totalFrames, true);
-      this.showControls = false;
-      this.pause();
+      this.goToEndAndStop();
       return;
     }
     // if not looping, an animation will need to be rewound/stopped before it can be replayed
@@ -194,6 +195,14 @@ export default class LottieView extends Backbone.View {
     this.animation.stop();
     this.animation[this.isPaused ? 'goToAndStop' : 'goToAndPlay'](0, true);
     this.render();
+  }
+
+  goToEndAndStop() {
+    const lastFrame = this.animation.totalFrames - 1;
+    this.animation.loop = 0;
+    this.animation.goToAndStop(lastFrame, true);
+    this.showControls = false;
+    this.pause();
   }
 
   render() {
@@ -252,6 +261,15 @@ export default class LottieView extends Backbone.View {
     this.togglePlayPause();
     this.hasUserPaused = this.isPaused;
     if (this.hasUserPaused && this.config._onPauseRewind) this.rewind();
+  }
+
+  checkVisua11y() {
+    const htmlClasses = document.documentElement.classList;
+
+    if (htmlClasses.contains('a11y-no-animations')) {
+      // Stop on last frame
+      this.goToEndAndStop();
+    }
   }
 
   destroyAnimation() {
