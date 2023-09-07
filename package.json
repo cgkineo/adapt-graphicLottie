@@ -1,7 +1,7 @@
 {
   "name": "adapt-graphicLottie",
   "version": "2.0.4",
-  "framework": ">=5.14",
+  "framework": ">=5.31.27",
   "homepage": "https://github.com/cgkineo/adapt-graphicLottie",
   "issues": "https://github.com/cgkineo/adapt-graphicLottie/issues",
   "extension": "graphicLottie",

@@ -39,7 +39,7 @@ The attributes listed below are used in *course.json* to configure **Adapt Graph
 
 ----------------------------
 
-**Framework versions:**  >=5.14<br/>
+**Framework versions:**  >=5.31.27<br/>
 **Author / maintainer:** Kineo<br/>
 **Accessibility support:** Yes<br/>
 **RTL support:** Yes<br/>
