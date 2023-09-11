@@ -264,10 +264,9 @@ export default class LottieView extends Backbone.View {
   checkVisua11y() {
     const htmlClasses = document.documentElement.classList;
 
-    if (htmlClasses.contains('a11y-no-animations')) {
-      // Stop on last frame
-      this.goToEndAndStop();
-    }
+    if (!htmlClasses.contains('a11y-no-animations')) return;
+    // Stop on last frame
+    this.goToEndAndStop();
   }
 
   destroyAnimation() {
