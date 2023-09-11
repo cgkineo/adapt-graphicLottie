@@ -200,6 +200,7 @@ export default class LottieView extends Backbone.View {
     this.animation.loop = 0;
     this.animation.goToAndStop(lastFrame, true);
     this.showControls = false;
+    this.hasUserPaused = true;
     this.pause();
   }
 
