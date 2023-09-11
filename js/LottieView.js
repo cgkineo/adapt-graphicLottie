@@ -257,7 +257,6 @@ export default class LottieView extends Backbone.View {
 
   onClick() {
     if (!this.config._showPauseControl || this.isLoopsComplete) return;
-
     this.togglePlayPause();
     this.hasUserPaused = this.isPaused;
     if (this.hasUserPaused && this.config._onPauseRewind) this.rewind();
