@@ -6,6 +6,7 @@ import documentModifications from 'core/js/DOMElementModifications';
 class GraphicLottie extends Backbone.Controller {
 
   initialize() {
+    _.bindAll(this, 'checkOnScreen');
     this.listenTo(Adapt, 'app:dataReady', this.onDataReady);
     this.waitingFor = 0;
   }
@@ -18,7 +19,7 @@ class GraphicLottie extends Backbone.Controller {
   }
 
   setUpEventListeners() {
-    document.body.addEventListener('transitionend', this.checkOnScreen.bind(this));
+    document.body.addEventListener('transitionend', this.checkOnScreen);
     this.listenTo(Adapt, 'notify:opened', this.checkOnScreen);
   }
 

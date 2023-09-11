@@ -15,7 +15,7 @@ export default class LottieView extends Backbone.View {
   }
 
   initialize({ replacedEl }) {
-    _.bindAll(this, 'render', 'onScreenChange', 'onDataReady');
+    _.bindAll(this, 'render', 'onScreenChange', 'onDataReady', 'checkVisua11y');
     this.replacedEl = replacedEl;
     this.syncAttributes();
     const fileExtension = this.config._fileExtension || 'svgz';
@@ -63,7 +63,8 @@ export default class LottieView extends Backbone.View {
   }
 
   get isFinished() {
-    // if not looping, Lottie will stop one frame before the end and not complete the loop or update counts accordingly
+    // If not looping, Lottie will stop one frame before the end and not complete the loop.
+    // Otherwise, Lottie will increase the play count by one.
     return Boolean(this.animation?.currentFrame >= this.animation?.totalFrames - 1);
   }
 
@@ -140,7 +141,6 @@ export default class LottieView extends Backbone.View {
   setUpListeners() {
     this.$el.on('onscreen', this.onScreenChange);
     this.listenTo(Adapt, 'device:resize', this.render);
-    this.checkVisua11y = this.checkVisua11y.bind(this);
     documentModifications.on('changed:html', this.checkVisua11y);
   }
 
@@ -256,6 +256,7 @@ export default class LottieView extends Backbone.View {
 
   onClick() {
     if (!this.config._showPauseControl || this.isLoopsComplete) return;
+
     this.togglePlayPause();
     this.hasUserPaused = this.isPaused;
     if (this.hasUserPaused && this.config._onPauseRewind) this.rewind();
@@ -263,8 +264,8 @@ export default class LottieView extends Backbone.View {
 
   checkVisua11y() {
     const htmlClasses = document.documentElement.classList;
-
     if (!htmlClasses.contains('a11y-no-animations')) return;
+
     // Stop on last frame
     this.goToEndAndStop();
   }
