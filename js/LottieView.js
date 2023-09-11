@@ -63,8 +63,7 @@ export default class LottieView extends Backbone.View {
   }
 
   get isFinished() {
-    // If not looping, Lottie will stop one frame before the end and not complete the loop.
-    // Otherwise, Lottie will increase the play count by one.
+    // if not looping, Lottie will stop one frame before the end and not complete the loop or update counts accordingly
     return Boolean(this.animation?.currentFrame >= this.animation?.totalFrames - 1);
   }
 
