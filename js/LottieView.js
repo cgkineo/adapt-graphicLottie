@@ -140,10 +140,8 @@ export default class LottieView extends Backbone.View {
   setUpListeners() {
     this.$el.on('onscreen', this.onScreenChange);
     this.listenTo(Adapt, 'device:resize', this.render);
-
-    documentModifications.on('changed:html', event => {
-      this.checkVisua11y();
-    });
+    this.checkVisua11y = this.checkVisua11y.bind(this);
+    documentModifications.on('changed:html', this.checkVisua11y);
   }
 
   onScreenChange(event, { onscreen, percentInview } = {}) {
