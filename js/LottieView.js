@@ -196,13 +196,13 @@ export default class LottieView extends Backbone.View {
   }
 
   goToEndAndStop() {
+    const config = Adapt.course.get('_graphicLottie');
     const lastFrame = this.animation.totalFrames - 1;
     this.animation.loop = 0;
     this.animation.goToAndStop(lastFrame, true);
-    this.showControls = false;
+    config._showPauseControl = false;
     this.hasUserPaused = true;
     this.pause();
-    this.undelegateEvents();
   }
 
   render() {
