@@ -202,6 +202,7 @@ export default class LottieView extends Backbone.View {
     this.showControls = false;
     this.hasUserPaused = true;
     this.pause();
+    this.undelegateEvents();
   }
 
   render() {
