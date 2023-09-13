@@ -15,7 +15,7 @@ export default class LottieView extends Backbone.View {
   }
 
   initialize({ replacedEl }) {
-    _.bindAll(this, 'render', 'onScreenChange', 'onDataReady', 'checkVisua11y');
+    _.bindAll(this, 'render', 'onScreenChange', 'onDataReady');
     this.replacedEl = replacedEl;
     this.syncAttributes();
     const fileExtension = this.config._fileExtension || 'svgz';
@@ -140,7 +140,7 @@ export default class LottieView extends Backbone.View {
   setUpListeners() {
     this.$el.on('onscreen', this.onScreenChange);
     this.listenTo(Adapt, 'device:resize', this.render);
-    documentModifications.on('changed:html', this.checkVisua11y);
+    this.listenTo(documentModifications, 'changed:html', this.checkVisua11y);
   }
 
   onScreenChange(event, { onscreen, percentInview } = {}) {
