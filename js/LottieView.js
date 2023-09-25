@@ -16,10 +16,12 @@ export default class LottieView extends Backbone.View {
 
   initialize({ replacedEl }) {
     _.bindAll(this, 'render', 'onScreenChange', 'onDataReady');
+    this.originalConfig = { ...Adapt.course.get('_graphicLottie') };
     this.replacedEl = replacedEl;
-    this.syncAttributes();
+    this.isPausedWithVisua11y = false;
     const fileExtension = this.config._fileExtension || 'svgz';
     this._rex = new RegExp(`\\.${fileExtension}`, 'i');
+    this.syncAttributes();
     this.setUpAttributeChangeObserver();
     this.setUpListeners();
     this.render();
@@ -197,11 +199,18 @@ export default class LottieView extends Backbone.View {
   goToEndAndStop() {
     const config = Adapt.course.get('_graphicLottie');
     const lastFrame = this.animation.totalFrames - 1;
-    this.animation.loop = 0;
     this.animation.goToAndStop(lastFrame, true);
     config._showPauseControl = false;
     this.hasUserPaused = true;
     this.pause();
+  }
+
+  replay() {
+    const config = Adapt.course.get('_graphicLottie');
+    config._showPauseControl = this.originalConfig._showPauseControl;
+    this.hasUserPaused = false;
+    this.rewind();
+    this.play();
   }
 
   render() {
@@ -264,9 +273,18 @@ export default class LottieView extends Backbone.View {
 
   checkVisua11y() {
     const htmlClasses = document.documentElement.classList;
-    if (!htmlClasses.contains('a11y-no-animations')) return;
+    const shouldStopAnimations = htmlClasses.contains('a11y-no-animations');
+    if (!shouldStopAnimations && !this.isPausedWithVisua11y) return;
+
+    // Check if animation should start playing again
+    if (this.isPausedWithVisua11y && !shouldStopAnimations) {
+      this.isPausedWithVisua11y = false;
+      this.replay();
+      return;
+    }
 
     // Stop on last frame
+    this.isPausedWithVisua11y = true;
     this.goToEndAndStop();
   }
 
