@@ -196,6 +196,12 @@ export default class LottieView extends Backbone.View {
     this.render();
   }
 
+  replay() {
+    this.hasUserPaused = false;
+    this.rewind();
+    this.play();
+  }
+
   goToEndAndStop() {
     const config = Adapt.course.get('_graphicLottie');
     const lastFrame = this.animation.totalFrames - 1;
@@ -203,14 +209,6 @@ export default class LottieView extends Backbone.View {
     config._showPauseControl = false;
     this.hasUserPaused = true;
     this.pause();
-  }
-
-  replay() {
-    const config = Adapt.course.get('_graphicLottie');
-    config._showPauseControl = this.originalConfig._showPauseControl;
-    this.hasUserPaused = false;
-    this.rewind();
-    this.play();
   }
 
   render() {
@@ -278,6 +276,8 @@ export default class LottieView extends Backbone.View {
 
     // Check if animation should start playing again
     if (this.isPausedWithVisua11y && !shouldStopAnimations) {
+      const config = Adapt.course.get('_graphicLottie');
+      config._showPauseControl = this.originalConfig._showPauseControl;
       this.isPausedWithVisua11y = false;
       this.replay();
       return;
