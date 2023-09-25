@@ -16,7 +16,7 @@ export default class LottieView extends Backbone.View {
 
   initialize({ replacedEl }) {
     _.bindAll(this, 'render', 'onScreenChange', 'onDataReady');
-    this.originalConfig = { ...Adapt.course.get('_graphicLottie') };
+    this._originalShowPauseControl = Adapt.course.get('_graphicLottie')._showPauseControl;
     this.replacedEl = replacedEl;
     this.isPausedWithVisua11y = false;
     const fileExtension = this.config._fileExtension || 'svgz';
@@ -277,7 +277,7 @@ export default class LottieView extends Backbone.View {
     // Check if animation should start playing again
     if (this.isPausedWithVisua11y && !shouldStopAnimations) {
       const config = Adapt.course.get('_graphicLottie');
-      config._showPauseControl = this.originalConfig._showPauseControl;
+      config._showPauseControl = this._originalShowPauseControl;
       this.isPausedWithVisua11y = false;
       this.replay();
       return;
