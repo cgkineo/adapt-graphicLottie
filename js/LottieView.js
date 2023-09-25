@@ -155,7 +155,7 @@ export default class LottieView extends Backbone.View {
   onOffScreen() {
     // disable animation if already playing and should only play on first inview
     if (this.hasStarted && this.config._playFirstViewOnly) {
-      this.goToEndAndStop();
+      this.stopAtEnd();
       return;
     }
     // if not looping, an animation will need to be rewound/stopped before it can be replayed
@@ -202,7 +202,7 @@ export default class LottieView extends Backbone.View {
     this.play();
   }
 
-  goToEndAndStop() {
+  stopAtEnd() {
     const config = Adapt.course.get('_graphicLottie');
     const lastFrame = this.animation.totalFrames - 1;
     this.animation.goToAndStop(lastFrame, true);
@@ -285,7 +285,7 @@ export default class LottieView extends Backbone.View {
 
     // Stop on last frame
     this.isPausedWithVisua11y = true;
-    this.goToEndAndStop();
+    this.stopAtEnd();
   }
 
   destroyAnimation() {
