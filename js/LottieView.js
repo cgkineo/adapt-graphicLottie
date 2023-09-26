@@ -1,7 +1,7 @@
 import Adapt from 'core/js/adapt';
 import device from 'core/js/device';
 import Lottie from 'libraries/lottie.min';
-import _ from 'underscore';
+import documentModifications from 'core/js/DOMElementModifications';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { templates } from 'core/js/reactHelpers';
@@ -16,10 +16,12 @@ export default class LottieView extends Backbone.View {
 
   initialize({ replacedEl }) {
     _.bindAll(this, 'render', 'onScreenChange', 'onDataReady');
+    this._originalShowPauseControl = Adapt.course.get('_graphicLottie')._showPauseControl;
     this.replacedEl = replacedEl;
-    this.syncAttributes();
+    this.isPausedWithVisua11y = false;
     const fileExtension = this.config._fileExtension || 'svgz';
     this._rex = new RegExp(`\\.${fileExtension}`, 'i');
+    this.syncAttributes();
     this.setUpAttributeChangeObserver();
     this.setUpListeners();
     this.render();
@@ -140,6 +142,7 @@ export default class LottieView extends Backbone.View {
   setUpListeners() {
     this.$el.on('onscreen', this.onScreenChange);
     this.listenTo(Adapt, 'device:resize', this.render);
+    this.listenTo(documentModifications, 'changed:html', this.checkVisua11y);
   }
 
   onScreenChange(event, { onscreen, percentInview } = {}) {
@@ -152,10 +155,7 @@ export default class LottieView extends Backbone.View {
   onOffScreen() {
     // disable animation if already playing and should only play on first inview
     if (this.hasStarted && this.config._playFirstViewOnly) {
-      this.animation.loop = 0;
-      this.animation.goToAndStop(this.animation.totalFrames, true);
-      this.showControls = false;
-      this.pause();
+      this.stopAtEnd();
       return;
     }
     // if not looping, an animation will need to be rewound/stopped before it can be replayed
@@ -194,6 +194,23 @@ export default class LottieView extends Backbone.View {
     this.animation.stop();
     this.animation[this.isPaused ? 'goToAndStop' : 'goToAndPlay'](0, true);
     this.render();
+  }
+
+  restart() {
+    const config = Adapt.course.get('_graphicLottie');
+    config._showPauseControl = this._originalShowPauseControl;
+    this.hasUserPaused = false;
+    this.rewind();
+    this.play();
+  }
+
+  stopAtEnd() {
+    const config = Adapt.course.get('_graphicLottie');
+    const lastFrame = this.animation.totalFrames - 1;
+    this.animation.goToAndStop(lastFrame, true);
+    config._showPauseControl = false;
+    this.hasUserPaused = true;
+    this.pause();
   }
 
   render() {
@@ -252,6 +269,23 @@ export default class LottieView extends Backbone.View {
     this.togglePlayPause();
     this.hasUserPaused = this.isPaused;
     if (this.hasUserPaused && this.config._onPauseRewind) this.rewind();
+  }
+
+  checkVisua11y() {
+    const htmlClasses = document.documentElement.classList;
+    const shouldStopAnimations = htmlClasses.contains('a11y-no-animations');
+    if (!shouldStopAnimations && !this.isPausedWithVisua11y) return;
+
+    // Check if animation should start playing again
+    if (this.isPausedWithVisua11y && !shouldStopAnimations) {
+      this.isPausedWithVisua11y = false;
+      this.restart();
+      return;
+    }
+
+    // Stop on last frame
+    this.isPausedWithVisua11y = true;
+    this.stopAtEnd();
   }
 
   destroyAnimation() {
