@@ -1,6 +1,6 @@
 # Adapt Graphic Lottie
 
-**Adapt Graphic Lottie** is an *extension* that renders Lottie animations exported from Adobe After Effect using the Bodymovin plugin. It works *only* where graphics are rendered as *img* tags and not everywhere graphics are rendered as *img* tags, due to custom styling and behaviour.
+**Adapt Graphic Lottie** is an *extension* that renders Lottie animations exported from Adobe After Effect using the Bodymovin plugin. It works where graphics are rendered as html img tags and does not work with css background images.
 
 Uses v5.7.6 of Lottie.
 
