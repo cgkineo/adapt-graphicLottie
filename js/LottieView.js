@@ -134,7 +134,8 @@ export default class LottieView extends Backbone.View {
           if (name === 'class') return attrs;
           return { ...{ [name]: value }, ...attrs };
         }, {}),
-        id: img.id
+        id: img.id,
+        role: 'image'
       })
       .addClass($(img).attr('class'));
   }
