@@ -24,7 +24,7 @@ class GraphicLottie extends Backbone.Controller {
   }
 
   checkOnScreen() {
-    $.inview();
+    $(window).trigger('resize');
   }
 
   setUp() {
