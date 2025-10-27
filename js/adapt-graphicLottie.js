@@ -6,25 +6,8 @@ import documentModifications from 'core/js/DOMElementModifications';
 class GraphicLottie extends Backbone.Controller {
 
   initialize() {
-    _.bindAll(this, 'checkOnScreen');
-    this.listenTo(Adapt, 'app:dataReady', this.onDataReady);
+    this.listenTo(Adapt, 'app:dataReady', this.setUp);
     this.waitingFor = 0;
-  }
-
-  onDataReady() {
-    const config = Adapt.course.get('_graphicLottie');
-    if (!config?._isEnabled) return;
-    this.setUpEventListeners();
-    this.setUp();
-  }
-
-  setUpEventListeners() {
-    document.body.addEventListener('transitionend', this.checkOnScreen);
-    this.listenTo(Adapt, 'notify:opened', this.checkOnScreen);
-  }
-
-  checkOnScreen() {
-    $(window).trigger('resize');
   }
 
   setUp() {
