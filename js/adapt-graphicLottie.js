@@ -12,7 +12,7 @@ class GraphicLottie extends Backbone.Controller {
 
   setUp() {
     const config = Adapt.course.get('_graphicLottie');
-    const fileExtension = config._fileExtension || 'svgz';
+    const fileExtension = config?._fileExtension || 'svgz';
     this.listenTo(documentModifications, {
       [`changed:img[src*='.${fileExtension}'],img[data-large*='.${fileExtension}'],img[data-small*='.${fileExtension}']`]: this.onImgAdded,
       'remove:[data-graphiclottie]': this.onPlayerRemoved
