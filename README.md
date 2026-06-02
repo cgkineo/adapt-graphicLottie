@@ -39,7 +39,7 @@ The attributes listed below are used in *course.json* to configure **Adapt Graph
 
 ----------------------------
 
-**Author / maintainer:** Kineo<br/>
+**Author / maintainer:** Mindtools Kineo<br/>
 **Accessibility support:** Yes<br/>
 **RTL support:** Yes<br/>
 **Cross-platform coverage:** Chrome, Chrome for Android, Firefox (ESR + latest version), Edge, Safari for macOS/iOS/iPadOS, Opera <br>
